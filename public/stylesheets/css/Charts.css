@@ -1,0 +1,65 @@
+.Charts {
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  padding: 10px;
+}
+.Charts--serie {
+  height: 100%;
+  margin: 0 0 0 0;
+  display: inline-block;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-transform-origin: 0 100%;
+          transform-origin: 0 100%;
+  position: relative;
+  border-bottom: 1px solid #c2c2c2;
+}
+.Charts--serie label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  font-family: Helvetica, sans-serif;
+  font-size: 10px;
+  text-align: center;
+  color: #808080;
+}
+.Charts--item {
+  background-color: #43A19E;
+  display: inline-block;
+  margin: 0 5px 0 0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-transition: height 1s ease-out, width 1s ease-out;
+  transition: height 1s ease-out, width 1s ease-out;
+  position: relative;
+  text-align: center;
+  border-radius: 2px 2px 0 0;
+}
+.Charts--item b {
+  position: relative;
+  font-family: Helvetica, sans-serif;
+  font-size: 10px;
+  top: -20px;
+  color: #43A19E;
+}
+.Charts--item label {
+  position: absolute;
+  font-family: Helvetica, sans-serif;
+  font-size: 10px;
+  bottom: -20px;
+  color: #000;
+}
