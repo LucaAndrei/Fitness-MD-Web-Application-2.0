@@ -9,3 +9,6 @@ import '../../api/advices/methods.js';
 
 import '../../api/challenges/server/publications.js';
 import '../../api/challenges/methods.js';
+
+import '../../api/competitions/server/publications.js';
+import '../../api/competitions/methods.js';

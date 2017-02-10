@@ -5,6 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import AuthenticatedApp from '../layouts/AuthenticatedApp.jsx';
 
 import Challenges from '../../api/challenges/Challenges.js';
+import Competitions from '../../api/competitions/Competitions.js';
 
 let DEBUG = true;
 let LOG_TAG = "imports/ui/containers/AuthenticatedAppContainer";
@@ -14,6 +15,7 @@ export default createContainer(() => {
     const userDataHandle = Meteor.subscribe('userData');
 
     const challengesHandle = Meteor.subscribe('challenges');
+    const competitionsHandle = Meteor.subscribe('competitions');
 
     if (DEBUG) {
         console.log(LOG_TAG, "createContainer allUsers : ",Meteor.users.find({roles : {$nin : ["admin"]}}).fetch());
@@ -22,8 +24,9 @@ export default createContainer(() => {
     return {
         user: Meteor.user(),
         menuOpen: Session.get('menuOpen'),
-        loading: !(usersHandle.ready() && userDataHandle.ready() && challengesHandle.ready()),
+        loading: !(usersHandle.ready() && userDataHandle.ready() && challengesHandle.ready() && competitionsHandle.ready()),
         allUsers: Meteor.users.find({roles : {$nin : ["admin"]}}).fetch(),
-        challenges: Challenges.find({}).fetch()
+        challenges: Challenges.find({}).fetch(),
+        competitions : Competitions.find({}).fetch()
     };
 }, AuthenticatedApp);

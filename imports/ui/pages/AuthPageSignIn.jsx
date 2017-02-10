@@ -87,7 +87,7 @@ export default class SignInPage extends Component {
                         </div>
                     </div>
                     <div className="footer text-center">
-                        <button type="submit" className="btn btn-fill btn-wd ">Let's go</button>
+                        <button type="submit" className="btn btn-fill btn-wd">Let's go</button>
                         <div className="forgot">
                             <Link to = "/join">Need an account? Join Now.</Link>
                         </div>

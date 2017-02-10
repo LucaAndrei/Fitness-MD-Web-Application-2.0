@@ -1,4 +1,6 @@
+import MapPointSchema from './MapPoint'
 Competitions = new Mongo.Collection( 'competitions' );
+
 
 Competitions.allow({
     insert: () => false,
@@ -12,26 +14,36 @@ Competitions.deny({
     remove: () => true
 });
 
+
+
 let CompetitionsSchema = new SimpleSchema({
     'createdBy' : {
         type: String,
         regEx: SimpleSchema.RegEx.Id
     },
-    'difficulty': {
-        type: String,
-        label: 'The difficulty of the challenge. Can be : Begginer, Intermediate, Advanced'
+    'date': {
+        type: String
     },
-    'type': {
-        type: String,
-        label: 'The type of challenge. Can be : Endurance, Strength, Speed'
+    'origin' : {
+        type : MapPointSchema
     },
-    'text': {
-        type: String,
-        label: 'Text of the challenge'
+    'destination' : {
+        type : MapPointSchema
+    },
+    'hasIntermediatePoint' : {
+        type : Boolean
+    },
+    'intermediate' : {
+        type : MapPointSchema
+    },
+    'distance': {
+        type: Number,
+        decimal : true
     },
     'registeredUsers': {
         type: [String],
-        regEx: SimpleSchema.RegEx.Id
+        regEx: SimpleSchema.RegEx.Id,
+        optional : true
     }
 });
 

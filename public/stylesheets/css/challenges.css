@@ -172,3 +172,7 @@ padding-top: 0.25em;
 .btn-challenge {
   margin : 5px;
 }
+
+.input-bg-white {
+  background-color : #FFFFFF;
+}

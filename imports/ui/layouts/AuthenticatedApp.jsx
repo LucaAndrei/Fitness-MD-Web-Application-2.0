@@ -49,7 +49,8 @@ export default class AuthenticatedApp extends React.Component {
             location,
             allUsers,
             messages,
-            challenges
+            challenges,
+            competitions
         } = this.props;
 
         const closeMenu = this.toggleMenu.bind(this, false);
@@ -62,7 +63,8 @@ export default class AuthenticatedApp extends React.Component {
         const clonedChildren = children && React.cloneElement(children, {
             key: location.pathname,
             users: allUsers,
-            challenges : challenges
+            challenges : challenges,
+            competitions : competitions
         });
         console.log(LOG_TAG,"clonedChildren",clonedChildren);
 

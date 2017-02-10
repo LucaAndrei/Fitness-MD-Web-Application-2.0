@@ -17,7 +17,12 @@ import EditProfile from '../../ui/pages/EditProfile.jsx';
 import UserProfile from '../../ui/pages/UserProfile.jsx';
 import Users from '../../ui/pages/Users.jsx';
 import Challenges from '../../ui/pages/Challenges.jsx';
-import Competitions from '../../ui/pages/Competitions.jsx';
+import CompetitionList from '../../ui/pages/CompetitionList.jsx';
+import CompetitionForm from '../../ui/pages/CompetitionForm.jsx';
+
+import CompetitionContainer from '../../ui/containers/CompetitionContainer.jsx';
+
+
 
 const closeMenuIfOpen = function() {
     if(Session.get('menuOpen')) {
@@ -41,7 +46,9 @@ export const renderRoutes = () => (
             <Route path="editProfile/:userId" component={EditProfile} onEnter={closeMenuIfOpen}/>
             <Route path="users" component={Users} onEnter={closeMenuIfOpen}/>
             <Route path="challenges" component={Challenges} onEnter={closeMenuIfOpen}/>
-            <Route path="competitions" component={Competitions} onEnter={closeMenuIfOpen}/>
+            <Route path="competitions" component={CompetitionList} onEnter={closeMenuIfOpen}/>
+            <Route path="competitions/create" component={CompetitionForm} onEnter={closeMenuIfOpen}/>
+            <Route path="competitions/view/:competitionId" component={CompetitionContainer} onEnter={closeMenuIfOpen}/>
         </Route>
     </Router>
 );

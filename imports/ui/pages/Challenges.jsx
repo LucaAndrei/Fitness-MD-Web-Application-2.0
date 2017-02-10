@@ -27,7 +27,7 @@ export default class Challenges extends React.Component {
         this.deleteList = this.deleteList.bind(this);
         this.createTodo = this.createTodo.bind(this);
         this.focusTodoInput = this.focusTodoInput.bind(this);
-            this.updateTodo = this.updateTodo.bind(this);
+        this.updateTodo = this.updateTodo.bind(this);
 
         this.createChallenge = this.createChallenge.bind(this);
         this.open = this.open.bind(this);
