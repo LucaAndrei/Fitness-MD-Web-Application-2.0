@@ -27,21 +27,22 @@ export default class Dashboard extends React.Component {
     render() {
         console.log(LOG_TAG,"Dashboard this.props", this.props);
         const {
-            users
+            users,
+            competitions
         } = this.props;
 
 
         var start = new Date();
         start.setHours(0,0,0,0);
-        console.log("start",start.getTime());
+        console.log(LOG_TAG,"start",start.getTime());
 
         var totalStepsForHourIndex = [0,0,0,0,0,0,0,0,0];
         var times = _.countBy(users, function(user) {
-            console.log("user",user)
+            console.log(LOG_TAG,"user",user)
             _.countBy(user.pedometerData, function(data) {
-                console.log("data",data.day);
+                console.log(LOG_TAG,"data",data.day);
                 if (data.day == start.getTime()) {
-                    console.log("data.steps",data.steps)
+                    console.log(LOG_TAG,"data.steps",data.steps)
                     totalStepsForHourIndex[data.hourIndex] += data.steps;
                 }
             })
@@ -76,25 +77,26 @@ export default class Dashboard extends React.Component {
             return  (!Roles.userIsInRole(user._id, 'admin') && user._id != Meteor.userId());
         }))[0];
 
+        var newUsersCounter = 0;
         var newUsers = _.values(_.countBy(users, function(user) {
             var date = new Date(user.createdAt);
             var dateNow = new Date();
             var diff = (dateNow-date)/(3600*1000);
-            return (
-                (!Roles.userIsInRole(user._id, 'admin') && user._id != Meteor.userId())
-                && diff <= 24);
-        }))[0];
+            var isUserNew = (!Roles.userIsInRole(user._id, 'admin') && user._id != Meteor.userId()) && diff <= 24;
+            if (isUserNew) newUsersCounter++;
 
+
+        }));
 
 
         var usersPerCountry = _.countBy(users,function(user) {
-            console.log("user.profile.name",user._id)
-            console.log("user.profile.country",user.profile.country);
+            console.log(LOG_TAG,"user.profile.name",user._id)
+            console.log(LOG_TAG,"user.profile.country",user.profile.country);
             return user.profile.country;
 
         })
 
-        console.log("usersPerCountry",usersPerCountry)
+        console.log(LOG_TAG,"usersPerCountry",usersPerCountry)
 
         var lbl = [];
         var srs = [];
@@ -120,15 +122,34 @@ export default class Dashboard extends React.Component {
             ]
         };
 
+        var nextCompetitions = [];
+        _.map(_.sortBy(competitions, function(competition) {
+            return new Date(competition.date);
+        }), function(sortedCompetition) {
+            console.log("sortedCompetition",sortedCompetition);
+            var dateNow = new Date();
+            var competitionDate = new Date(sortedCompetition.date);
+            if (dateNow < competitionDate) {
+                console.log("competition in future")
+                nextCompetitions.push(sortedCompetition);
+                return;
+            } else {
+                console.log("competition in past");
+            }
+        })
+
+        console.log("nextCompetitions",nextCompetitions)
 
 
 
 
         return (
             <div className="container-fluid">
-                <DashboardStats newUsers = {newUsers} totalUsers = {totalUsers}/>
+                <DashboardStats newUsers = {newUsersCounter} totalUsers = {totalUsers}/>
 
-                <DashboardCompletedTasks />
+                <DashboardCompletedTasks
+                    nextCompetition = {nextCompetitions[0]}
+                    />
                 <DashboardGraphs
                     usersBehaviorData = {dataSales}
                     usersBehaviorOptions = {optionsSales}

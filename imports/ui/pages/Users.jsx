@@ -17,8 +17,8 @@ export default class Users extends React.Component {
         console.log(LOG_TAG,"Admin renderUsers");
         return users.map((user) => {
             var isUserAdmin = Roles.userIsInRole(user._id, 'admin');
-            console.log("user._id",user._id);
-            console.log("Meteor.userId", Meteor.userId());
+            console.log(LOG_TAG,"user._id",user._id);
+            console.log(LOG_TAG,"Meteor.userId", Meteor.userId());
             if(!isUserAdmin && user._id != Meteor.userId()) {
                 return (
                     <li key={user._id}><User user={user} /></li>

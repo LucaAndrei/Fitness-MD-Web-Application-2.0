@@ -72,11 +72,11 @@ export default class JoinPage extends React.Component {
                     country : response.country
                 }
             }, (err) => {
-                console.log("err",err);
-                console.log("this",this);
-                console.log("self",self)
+                console.log(LOG_TAG,"err",err);
+                console.log(LOG_TAG,"this",this);
+                console.log(LOG_TAG,"self",self)
                 if (err) {
-                    console.log("error")
+                    console.log(LOG_TAG,"error")
                     //console.log(LOG_TAG,"user",user);
                     Bert.alert( err.reason, 'danger', 'growl-top-right' );
                     self.setState({

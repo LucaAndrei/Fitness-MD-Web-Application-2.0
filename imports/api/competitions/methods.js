@@ -27,14 +27,18 @@ export const insertCompetition = new ValidatedMethod({
             type : Boolean
         },
         'intermediate' : {
-            type : MapPointSchema
+            type : MapPointSchema,
+            optional : true
         },
         'distance': {
             type: Number,
             decimal : true
+        },
+        'availablePlaces' : {
+            type : Number
         }
     }).validator(),
-    run({createdBy, date, origin, destination, hasIntermediatePoint, intermediate,distance}) {
+    run({createdBy, date, origin, destination, hasIntermediatePoint, intermediate, distance, availablePlaces}) {
         console.log(LOG_TAG,"createdBy",createdBy);
         console.log(LOG_TAG,"date",date);
         console.log(LOG_TAG,"origin",origin);
@@ -49,13 +53,14 @@ export const insertCompetition = new ValidatedMethod({
             destination,
             hasIntermediatePoint,
             intermediate,
-            distance
+            distance,
+            availablePlaces
         }
         console.log(LOG_TAG,"competitionToInsert",competitionToInsert);
         try {
             var inserted =  Competitions.insert( competitionToInsert );
             console.log(LOG_TAG,"inserted competition",inserted);
-            return "success inserted competition";
+            return inserted;
         } catch ( exception ) {
             throw new Meteor.Error( '500', `${ exception }` );
         }
@@ -106,11 +111,11 @@ export const registerCompetition = new ValidatedMethod({
         console.log(LOG_TAG,"registering",registering);
         try {
             if (registering) {
-                var subscribeCompetition =  Competitions.update({_id : competitionId}, {$addToSet : {'registeredUsers' : userID}});
+                var subscribeCompetition =  Competitions.update({_id : competitionId}, {$addToSet : {'registeredUsers' : userID}, $inc : {'availablePlaces' : -1}});
                 console.log(LOG_TAG,"subscribeCompetition to competition",subscribeCompetition);
                 return "success subscribed";
             } else {
-                var unsubscribeCompetition =  Competitions.update({_id : competitionId}, {$pull : {'registeredUsers' : userID}});
+                var unsubscribeCompetition =  Competitions.update({_id : competitionId}, {$pull : {'registeredUsers' : userID}, $inc : {'availablePlaces' : +1}});
                 console.log(LOG_TAG,"unsubscribed from competition",unsubscribeCompetition);
                 return "success unsubscribed";
             }

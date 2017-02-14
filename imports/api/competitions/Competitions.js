@@ -34,7 +34,8 @@ let CompetitionsSchema = new SimpleSchema({
         type : Boolean
     },
     'intermediate' : {
-        type : MapPointSchema
+        type : MapPointSchema,
+        optional : true
     },
     'distance': {
         type: Number,
@@ -44,6 +45,9 @@ let CompetitionsSchema = new SimpleSchema({
         type: [String],
         regEx: SimpleSchema.RegEx.Id,
         optional : true
+    },
+    'availablePlaces' : {
+        type : Number
     }
 });
 

@@ -43,7 +43,7 @@ export default class PlaceSuggestion extends React.Component {
             <div className="form-group">
                 <Geosuggest
                     id = {this.props.id}
-                    label = {this.props.placeholder}
+                    label = {this.props.label}
                     ref = {this.props.id}
                     onSuggestSelect={this.onSuggestSelect}
                     location={new google.maps.LatLng(45.423333, 28.042500)}

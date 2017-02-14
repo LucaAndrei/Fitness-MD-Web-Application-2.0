@@ -74,7 +74,7 @@ export default class Sidebar extends React.Component {
                         }
 
                         {
-                            isUserAdmin
+                            this.props.user
                                 ?
                                     <NavLink to="/app/competitions" className="menu-item">
                                         <i className="icon-menu fa fa-fw fa-flag-checkered" /><p>Competitions</p>

@@ -23,19 +23,19 @@ export default class ChallengeItem extends React.Component {
 
 
     deleteChallenge() {
-        console.log("deleteChallenge",this.props.challenge._id);
+        console.log(LOG_TAG,"deleteChallenge",this.props.challenge._id);
 
         this.setState({ showModal: true});
     }
 
     cancelDelete() {
-        console.log("cancelDelete");
+        console.log(LOG_TAG,"cancelDelete");
         this.setState({ showModal: false});
     }
 
 
     registerChallenge(event) {
-        console.log("isRegistering",event.target.value)
+        console.log(LOG_TAG,"isRegistering",event.target.value)
         let isRegistering = event.target.value == "give_up" ? false : true;
         Meteor.call("registerChallenge", {
             userID : Meteor.userId(),
@@ -45,27 +45,27 @@ export default class ChallengeItem extends React.Component {
 
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning", 'growl-top-right'  );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Deleted challenge!" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
     }
 
     onConfirm() {
-        console.log("onConfirm")
+        console.log(LOG_TAG,"onConfirm")
         Meteor.call("deleteChallenge", {
             challengeId: this.props.challenge._id
         }, ( error, response ) => {
 
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Deleted challenge!" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
@@ -90,24 +90,24 @@ export default class ChallengeItem extends React.Component {
         }
         let isRegistered = false;
         let challenge = this.props.challenge;
-        console.log("challenge",challenge)
+        console.log(LOG_TAG,"challenge",challenge)
         if (challenge.hasOwnProperty('registeredUsers')) {
-            console.log("challenge.registeredUsers", challenge.registeredUsers)
+            console.log(LOG_TAG,"challenge.registeredUsers", challenge.registeredUsers)
             let found = false;
             challenge.registeredUsers.map(function(user) {
-                console.log("user",user);
+                console.log(LOG_TAG,"user",user);
                 if (user == Meteor.userId()) {
-                    console.log("found !!!!");
+                    console.log(LOG_TAG,"found !!!!");
                     found = true;
                 }
             })
 
-            console.log("found",found);
+            console.log(LOG_TAG,"found",found);
 
             isRegistered = found;
         }
 
-        console.log("isRegistered",isRegistered)
+        console.log(LOG_TAG,"isRegistered",isRegistered)
 
 
         return (

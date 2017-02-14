@@ -55,17 +55,17 @@ export default class Challenges extends React.Component {
 
     saveList() {
         this.setState({ editing: false });
-        console.log("savelist")
+        console.log(LOG_TAG,"savelist")
     }
 
     deleteList() {
-        console.log("deleteList")
+        console.log(LOG_TAG,"deleteList")
     }
 
     createTodo(event) {
         event.preventDefault();
         const input = this.newTodoInput;
-        console.log("createTodo",input)
+        console.log(LOG_TAG,"createTodo",input)
     }
 
     focusTodoInput() {
@@ -77,7 +77,7 @@ export default class Challenges extends React.Component {
   }
 
   createChallenge() {
-    console.log("createChallenge");
+    console.log(LOG_TAG,"createChallenge");
     this.setState({ creating: true, showModal : true });
   }
 
@@ -91,28 +91,28 @@ export default class Challenges extends React.Component {
   }
 
   openModal() {
-    console.log("openModal",this);
+    console.log(LOG_TAG,"openModal",this);
   }
 
 
   onSelectType(event) {
-    console.log("onSelectType",event.target.value);
+    console.log(LOG_TAG,"onSelectType",event.target.value);
   }
 
   onSelectDifficulty(event) {
-    console.log("onSelectDifficulty",event.target.value);
+    console.log(LOG_TAG,"onSelectDifficulty",event.target.value);
   }
 
   onChangeDescription(event) {
-    console.log("onChangeDescription",event.target.value);
+    console.log(LOG_TAG,"onChangeDescription",event.target.value);
   }
 
 
   onSave() {
-    console.log("onSave",this);
-    console.log("chType",this.chType.value)
-    console.log("chDifficulty",this.chDifficulty.value)
-    console.log("chDescription",this.chDescription.value)
+    console.log(LOG_TAG,"onSave",this);
+    console.log(LOG_TAG,"chType",this.chType.value)
+    console.log(LOG_TAG,"chDifficulty",this.chDifficulty.value)
+    console.log(LOG_TAG,"chDescription",this.chDescription.value)
     let self = this;
     Meteor.call("insertChallenge", {
             createdBy: Meteor.userId(),
@@ -123,10 +123,10 @@ export default class Challenges extends React.Component {
 
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Inserted challenge!" );
+                Bert.alert( response, 'success', 'growl-top-right' );
                 this.close();
             }
 
@@ -135,10 +135,10 @@ export default class Challenges extends React.Component {
 
 
   takeChallenge() {
-    console.log("takeChallenge",this);
-    console.log("chType",this.chType.value)
-    console.log("chDifficulty",this.chDifficulty.value)
-    console.log("chDescription",this.chDescription.value)
+    console.log(LOG_TAG,"takeChallenge",this);
+    console.log(LOG_TAG,"chType",this.chType.value)
+    console.log(LOG_TAG,"chDifficulty",this.chDifficulty.value)
+    console.log(LOG_TAG,"chDescription",this.chDescription.value)
   }
 
 
@@ -149,11 +149,11 @@ export default class Challenges extends React.Component {
         console.log(LOG_TAG,"Challenges this.props", this.props);
         const { challenges } = this.props;
         const { editing, creating } = this.state;
-        console.log("this.state",this.state)
+        console.log(LOG_TAG,"this.state",this.state)
 
 
         const isUserAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
-        console.log("isUserAdmin",isUserAdmin);
+        console.log(LOG_TAG,"isUserAdmin",isUserAdmin);
 
 
         let Challenges = challenges.map(challenge => (

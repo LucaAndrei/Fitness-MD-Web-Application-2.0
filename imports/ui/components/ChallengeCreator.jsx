@@ -66,24 +66,24 @@ export default class Challenges extends React.Component {
 
     saveList() {
         this.setState({ editing: false });
-        console.log("savelist")
+        console.log(LOG_TAG,"savelist")
     }
 
     deleteList() {
-        console.log("deleteList")
+        console.log(LOG_TAG,"deleteList")
 
     }
 
     createTodo(event) {
         event.preventDefault();
         const input = this.newTodoInput;
-        console.log("createTodo",input)
+        console.log(LOG_TAG,"createTodo",input)
     }
 
     render() {
         console.log(LOG_TAG,"Challenges this.props", this.props);
         const { editing, creating } = this.state;
-        console.log("this.state",this.state)
+        console.log(LOG_TAG,"this.state",this.state)
 
         return (
             <div className="todo-container col-md-3">

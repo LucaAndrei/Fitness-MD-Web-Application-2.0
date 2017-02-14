@@ -11008,3 +11008,13 @@ border-color: rgba(122, 158, 159, 0.6);
 .user-graph-footer-xs button{
   margin : 5px;
 }
+
+.popover-content table {
+  color : #000000;
+}
+
+
+.popover-title .text-muted,
+.popover-content table thead tr td.text-muted small{
+  color : #777;
+}

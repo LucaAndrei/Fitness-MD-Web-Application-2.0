@@ -17,11 +17,13 @@ var _ = require('lodash');
 export default class CompetitionViewer extends React.Component {
     constructor(props) {
         super(props);
-        console.log("props",props);
+        console.log(LOG_TAG,"props",props);
         let competition = props.competition[0];
         this.state = _.assign(this.state, {
             directions: null,
-            waypoints : [],
+            waypoints : [
+                {location : new google.maps.LatLng(competition.intermediate.latitude, competition.intermediate.longitude)}
+            ],
             origin : {
                 location : new google.maps.LatLng(competition.origin.latitude, competition.origin.longitude),
                 isSet : true,
@@ -29,18 +31,19 @@ export default class CompetitionViewer extends React.Component {
             },
             destination : {
                 location : new google.maps.LatLng(competition.destination.latitude, competition.destination.longitude),
-                isSet : false,
+                isSet : true,
                 label : competition.destination.label
             },
             intermediatePoint : {
                 location : new google.maps.LatLng(competition.intermediate.latitude, competition.intermediate.longitude),
-                isSet : false,
+                isSet : true,
                 label : competition.intermediate.label
             },
             places : [
-                {id : "startPoint", placeholder : competition.origin.label},
-                {id : "intermediatePoint", placeholder : competition.intermediate.label},
-                {id : "endPoint", placeholder : competition.destination.label}
+                {id : "startPoint", placeholder : competition.origin.label, label : "Start point"},
+                {id : "intermediatePoint", placeholder : competition.intermediate.label ? competition.intermediate.label : "---", label : "Via"},
+                {id : "endPoint", placeholder : competition.destination.label, label : "End point"}
+
             ],
             distance : competition.distance,
             date : competition.date,
@@ -49,11 +52,13 @@ export default class CompetitionViewer extends React.Component {
         this.reconfigRoute = this.reconfigRoute.bind(this);
         this.onBlur = this.onBlur.bind(this);
 
+        this.reconfigRoute();
+
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("prevState",prevState)
-        console.log("this.state",this.state)
+        console.log(LOG_TAG,"prevState",prevState)
+        console.log(LOG_TAG,"this.state",this.state)
 
         /*if ((prevState.origin.isSet != this.state.origin.isSet)
             || (prevState.destination.isSet != this.state.destination.isSet) || (prevState.intermediatePoint.isSet != this.state.intermediatePoint.isSet)) {
@@ -63,7 +68,7 @@ export default class CompetitionViewer extends React.Component {
     }
 
     onBlur(inputId, event) {
-        console.log("onBlur",inputId)
+        console.log(LOG_TAG,"onBlur",inputId)
     }
 
     reconfigRoute() {
@@ -83,7 +88,7 @@ export default class CompetitionViewer extends React.Component {
                 var distance = _.reduce(result.routes[0].legs, function(sum, leg) {
                     return sum + (leg.distance.value / 1000);
                 },0)
-                console.log("distance",distance)
+                console.log(LOG_TAG,"distance",distance)
                 if (status === google.maps.DirectionsStatus.OK) {
                     this.setState({
                         directions: result,
@@ -103,11 +108,16 @@ export default class CompetitionViewer extends React.Component {
 
         const isUserAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
         const competition = this.props.competition[0];
-        var date = new Date(competition.date);
-        var timezoneOffset = date.getTimezoneOffset();
-        var time = new Date(date.getTime() + Math.abs(timezoneOffset)).toISOString() ;
-        console.log("this.state.places",this.state.places)
-        console.log("competition",competition)
+        if (competition) {
+            var date = new Date(competition.date);
+            var timezoneOffset = date.getTimezoneOffset();
+            var time = new Date(date.getTime() + Math.abs(timezoneOffset)).toISOString() ;
+            console.log(LOG_TAG,"this.state.places",this.state.places)
+            console.log(LOG_TAG,"competition",competition)
+        } else {
+
+        }
+
 
         let Places = this.state.places.map(place => (
                         <PlaceSuggestion
@@ -118,6 +128,7 @@ export default class CompetitionViewer extends React.Component {
                             onBlur = {this.onBlur}
                             disabled = {!isUserAdmin ? true : true}
                             value = {place.placeholder}
+                            label = {place.label}
 
                         />
                     ));
@@ -128,9 +139,9 @@ export default class CompetitionViewer extends React.Component {
                     <CompetitionDetails
                         places = {Places}
                         date = {time}
-                        distance = {competition.distance}
                         isUserAdmin = {isUserAdmin}
                         isCreated = {true}
+                        competition = {competition}
                     />
 
                     <div className = "hidden-xs">

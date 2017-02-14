@@ -33,7 +33,7 @@ export default class MessagesUserlist extends React.Component {
         if (DEBUG) {
             console.log(LOG_TAG,"this.props : ",this.props);
         }
-        console.log("users.length",users.length);
+        console.log(LOG_TAG,"users.length",users.length);
         return (
             <div className="content-scrollable container-fluid">
                 <h1>Should i use this anymore if i already have users page with link to message user?</h1>

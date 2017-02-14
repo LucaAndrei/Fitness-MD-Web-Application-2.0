@@ -8,7 +8,7 @@ Meteor.publish( 'users', function() {
     if (DEBUG) {
         console.log(LOG_TAG,"publish-users this.userId : ",this.userId," >>> isAdmin : ",isAdmin);
     }
-    // console.log("all",Meteor.users.find(
+    // console.log(LOG_TAG,"all",Meteor.users.find(
     //             {},
     //             {
     //                 fields:
@@ -23,7 +23,7 @@ Meteor.publish( 'users', function() {
     //                     }
     //             }
     //         ).fetch())
-    // console.log("no admin",Meteor.users.find(
+    // console.log(LOG_TAG,"no admin",Meteor.users.find(
     //             {roles : {$nin : ["admin"]}},
     //             {
     //                 fields:
@@ -39,7 +39,7 @@ Meteor.publish( 'users', function() {
     //             }
     //         ).fetch());
     if ( isAdmin ) {
-        console.log("isAdmin");
+        console.log(LOG_TAG,"isAdmin");
         return [
             Meteor.users.find(
                 {roles : {$nin : ["admin"]}},
@@ -71,7 +71,7 @@ Meteor.publish( 'users', function() {
         console.log(LOG_TAG,"publish-users this.userId : ",this.userId," >>> isAdmin : ",isAdmin);
     }
     if ( isAdmin ) {
-        console.log("isAdmin");
+        console.log(LOG_TAG,"isAdmin");
         return [
             Meteor.users.find(
                 {roles : {$nin : ["admin"]}},

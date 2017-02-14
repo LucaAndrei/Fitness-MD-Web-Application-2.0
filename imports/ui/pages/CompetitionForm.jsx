@@ -39,13 +39,14 @@ export default class CompetitionForm extends React.Component {
                 label : ""
             },
             places : [
-                {id : "startPoint", placeholder : "Start point"},
-                {id : "intermediatePoint", placeholder : "Via"},
-                {id : "endPoint", placeholder : "End point"}
+                {id : "startPoint", placeholder : "Start point", label : "Start point"},
+                {id : "intermediatePoint", placeholder : "---", label : "Via"},
+                {id : "endPoint", placeholder : "End point", label : "End point"}
             ],
             distance : 0,
             date : new Date().toISOString(),
-            isCreated : false
+            isCreated : false,
+            competitionId : ''
         });
 
 
@@ -57,13 +58,41 @@ export default class CompetitionForm extends React.Component {
         this.createCompetition = this.createCompetition.bind(this);
     }
 
-    createCompetition(date) {
+    createCompetition(date, avPlaces) {
 
         console.log(LOG_TAG,"createCompetition",this.state.date, this.state.distance)
         console.log(LOG_TAG,"createCompetition this",this)
         console.log(LOG_TAG,"createCompetition this.state",this.state.origin.label, this.state.destination.label)
         console.log(LOG_TAG,"start point",this.state.origin.location)
-        console.log("date",date)
+        console.log(LOG_TAG,"date",date)
+        console.log("avPlaces",avPlaces)
+        const origin = this.state.origin;
+        const destination = this.state.destination;
+        const distance = this.state.distance;
+        const availablePlaces = parseInt(avPlaces);
+        const errors = {};
+
+        if (!origin.isSet) {
+            errors.originSet = "Origin is not set";
+        }
+        if (!destination.isSet) {
+            errors.destinationSet = "Destination is not set";
+        }
+        if (distance == 0) {
+            errors.distance = "Distance cannot be 0";
+        }
+        if (availablePlaces == 0) {
+            errors.availablePlaces = "Available places cannot be 0"
+        }
+        if (_.keys(errors).length) {
+
+            _.map(_.keys(errors), function(key) {
+                console.log("key",key)
+                Bert.alert(errors[key],'warning','growl-top-right')
+            })
+            return;
+        }
+
 
         Meteor.call("insertCompetition", {
             createdBy: Meteor.userId(),
@@ -84,38 +113,41 @@ export default class CompetitionForm extends React.Component {
                 longitude : this.state.intermediatePoint.location.lng(),
                 label : this.state.intermediatePoint.label,
             },
-            distance: this.state.distance
+            distance: this.state.distance,
+            availablePlaces : availablePlaces
         }, ( error, response ) => {
 
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Inserted competition!" );
-                this.setState({
+                Bert.alert( "Success created competition", 'success', 'growl-top-right' );
+                this.props.router.push('/app/competitions/view/'+response);
+                /*this.setState({
+                    competitionId : response
                     isCreated : true
-                })
+                })*/
             }
 
         });
     }
 
     /*shouldComponentUpdate(nextProps, nextState) {
-        console.log("this.state",this.state)
-        console.log("nextState",nextState)
+        console.log(LOG_TAG,"this.state",this.state)
+        console.log(LOG_TAG,"nextState",nextState)
         if ((this.state.origin.isSet != nextState.origin.isSet)
             || (nextState.destination.isSet != this.state.destination.isSet)
             || (nextState.intermediatePoint.isSet != this.state.intermediatePoint.isSet)) {
-            console.log("component should update")
+            console.log(LOG_TAG,"component should update")
             return true;
         }
         return false;
     }*/
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("prevState",prevState)
-        console.log("this.state",this.state)
+        console.log(LOG_TAG,"prevState",prevState)
+        console.log(LOG_TAG,"this.state",this.state)
         if ((prevState.origin.isSet != this.state.origin.isSet)
             || (prevState.destination.isSet != this.state.destination.isSet) || (prevState.intermediatePoint.isSet != this.state.intermediatePoint.isSet)) {
             // this.setState({
@@ -234,7 +266,7 @@ export default class CompetitionForm extends React.Component {
                 var distance = _.reduce(result.routes[0].legs, function(sum, leg) {
                     return sum + (leg.distance.value / 1000);
                 },0)
-                console.log("distance",distance)
+                console.log(LOG_TAG,"distance",distance)
                 if (status === google.maps.DirectionsStatus.OK) {
                     this.setState({
                         directions: result,
@@ -262,8 +294,10 @@ export default class CompetitionForm extends React.Component {
                             id={place.id}
                             onBlur = {this.onBlur}
                             disabled = {!isUserAdmin || this.state.isCreated ? true : false}
+                            label = {place.label}
                         />
                     ));
+        console.log("")
 
         return (
             <div className="container-fluid">

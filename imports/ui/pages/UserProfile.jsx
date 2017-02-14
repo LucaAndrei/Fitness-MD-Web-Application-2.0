@@ -35,7 +35,7 @@ export default class UserProfile extends React.Component {
         for (var j = serieLength; j--; ) {
             data.push(getRandomInt(0, 10000));
         }
-        console.log("populateData",data)
+        console.log(LOG_TAG,"populateData",data)
         this.setState({ data: data });
     }
     renderUserData(userId) {

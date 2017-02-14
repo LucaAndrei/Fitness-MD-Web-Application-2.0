@@ -26,7 +26,7 @@ export default class SignInPage extends Component {
     onSubmit(event) {
         event.preventDefault();
 
-        console.log("this",this);
+        console.log(LOG_TAG,"this",this);
 
         const email = this.email.value;
         const password = this.password.value;

@@ -48,7 +48,7 @@ export default class EditProfile extends React.Component {
     }
 
     handleDateOfBirthChange(date) {
-        console.log("handleDateOfBirthChange",date);
+        console.log(LOG_TAG,"handleDateOfBirthChange",date);
         this.setState({
           startDate: date
         });
@@ -63,17 +63,17 @@ export default class EditProfile extends React.Component {
         }, ( error, response ) => {
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Updated date of birth!" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
     }
 
     handleHeightChange(event) {
-        console.log("handleHeightChange",event.target);
+        console.log(LOG_TAG,"handleHeightChange",event.target);
         this.saveHeight();
     }
 
@@ -85,17 +85,17 @@ export default class EditProfile extends React.Component {
         }, ( error, response ) => {
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Updated date of birth!" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
     }
 
     handleWeightChange(event) {
-        console.log("handleWeightChange",event.target);
+        console.log(LOG_TAG,"handleWeightChange",event.target);
         this.saveWeight();
     }
 
@@ -107,10 +107,10 @@ export default class EditProfile extends React.Component {
         }, ( error, response ) => {
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "Updated date of birth!" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
@@ -129,10 +129,10 @@ export default class EditProfile extends React.Component {
         }, ( error, response ) => {
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "success" );
+                Bert.alert( response,'success', 'growl-top-right' );
             }
 
         });
@@ -156,10 +156,10 @@ export default class EditProfile extends React.Component {
         }, ( error, response ) => {
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "success" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
@@ -178,10 +178,10 @@ export default class EditProfile extends React.Component {
         }, ( error, response ) => {
             if ( error ) {
                 console.log(LOG_TAG,"error",error);
-                Bert.alert( error.reason, "warning" );
+                Bert.alert( error.reason, "warning" , 'growl-top-right' );
             } else if (response) {
                 console.log(LOG_TAG,"response",response);
-                Bert.alert( response, "success" );
+                Bert.alert( response, 'success', 'growl-top-right' );
             }
 
         });
@@ -200,16 +200,16 @@ export default class EditProfile extends React.Component {
         console.log(LOG_TAG,"user",user);
         var userDateOfBirth = user.profile.dateOfBirth;
         var dob = moment(userDateOfBirth)
-        console.log("dob",dob)
+        console.log(LOG_TAG,"dob",dob)
 
         let totalSteps = _.reduce(user.pedometerData, function(sum, n) {
-            console.log("sum",sum)
-            console.log("n",n)
+            console.log(LOG_TAG,"sum",sum)
+            console.log(LOG_TAG,"n",n)
             return sum + n.steps;
 
         },0);
 
-        console.log("totalSteps",totalSteps)
+        console.log(LOG_TAG,"totalSteps",totalSteps)
 
 
 
@@ -372,7 +372,7 @@ class ExampleCustomInput extends React.Component {
     }
 
     render () {
-        console.log("this.props",this.props)
+        console.log(LOG_TAG,"this.props",this.props)
         return (
             <input onClick={this.props.onClick} defaultValue={this.props.value} type="text" className="form-control border-input" placeholder="Date of birth" />
         )

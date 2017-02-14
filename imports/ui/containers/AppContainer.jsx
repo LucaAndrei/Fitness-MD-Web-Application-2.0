@@ -13,7 +13,7 @@ export default createContainer(() => {
     if (DEBUG) {
         console.log(LOG_TAG, "createContainer allUsers : ",Meteor.users.find({}).fetch());
     }
-    console.log("usersHandle",usersHandle.ready())
+    console.log(LOG_TAG,"usersHandle",usersHandle.ready())
     return {
         user: Meteor.user(),
         menuOpen: Session.get('menuOpen'),

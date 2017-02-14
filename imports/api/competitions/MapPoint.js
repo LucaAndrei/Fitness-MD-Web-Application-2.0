@@ -1,14 +1,17 @@
 let MapPointSchema = new SimpleSchema({
     'latitude' : {
         type: Number,
-        decimal : true
+        decimal : true,
+        optional : true
     },
     'longitude' : {
         type: Number,
-        decimal : true
+        decimal : true,
+        optional : true
     },
     'label' : {
-        type : String
+        type : String,
+        optional : true
     }
 })
 

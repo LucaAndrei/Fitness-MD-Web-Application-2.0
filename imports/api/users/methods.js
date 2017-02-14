@@ -62,9 +62,9 @@ export const insertPedometerData = new ValidatedMethod({
         }
 
         var date = new Date(day);
-        console.log("date",date);
+        console.log(LOG_TAG,"date",date);
         var hours = date.getHours();
-        console.log("hours",hours);
+        console.log(LOG_TAG,"hours",hours);
 
         var result = Meteor.users.update(
             {_id : userIdToInsert},
@@ -151,7 +151,7 @@ export const updateStepsForToday = new ValidatedMethod({
                 'pedometerData.$.steps' : steps}}
         )
 
-        console.log("resultUpdate",resultUpdate);
+        console.log(LOG_TAG,"resultUpdate",resultUpdate);
 
         if (resultUpdate == 0) {
             var addToSetResult = Meteor.users.update({_id : userId},
@@ -162,7 +162,7 @@ export const updateStepsForToday = new ValidatedMethod({
                     'steps' : steps
                 }}
             })
-            console.log("addToSetResult",addToSetResult)
+            console.log(LOG_TAG,"addToSetResult",addToSetResult)
         }
 
 

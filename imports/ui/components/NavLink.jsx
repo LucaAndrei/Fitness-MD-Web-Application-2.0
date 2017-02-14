@@ -19,7 +19,7 @@ export default class NavLink extends React.Component {
             className = isActive ? "active" : "";
         }
 
-            //console.log("this.context.router",this.context.router.isActive('/app/users'))
+            //console.log(LOG_TAG,"this.context.router",this.context.router.isActive('/app/users'))
         return (
             <li className = {className}>
                 <Link {...this.props}>
