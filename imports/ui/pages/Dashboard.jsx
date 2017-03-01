@@ -2,10 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Accounts } from 'meteor/accounts-base';
 
-import User from '../components/User.jsx';
-
-
-
 import DashboardStats from '../components/DashboardStats.jsx';
 import DashboardGraphs from '../components/DashboardGraphs.jsx';
 import DashboardCompletedTasks from '../components/DashboardCompletedTasks.jsx';
@@ -28,7 +24,8 @@ export default class Dashboard extends React.Component {
         console.log(LOG_TAG,"Dashboard this.props", this.props);
         const {
             users,
-            competitions
+            competitions,
+            downloads
         } = this.props;
 
 
@@ -126,26 +123,26 @@ export default class Dashboard extends React.Component {
         _.map(_.sortBy(competitions, function(competition) {
             return new Date(competition.date);
         }), function(sortedCompetition) {
-            console.log("sortedCompetition",sortedCompetition);
+            console.log(LOG_TAG,"sortedCompetition",sortedCompetition);
             var dateNow = new Date();
             var competitionDate = new Date(sortedCompetition.date);
             if (dateNow < competitionDate) {
-                console.log("competition in future")
+                console.log(LOG_TAG,"competition in future")
                 nextCompetitions.push(sortedCompetition);
                 return;
             } else {
-                console.log("competition in past");
+                console.log(LOG_TAG,"competition in past");
             }
         })
 
-        console.log("nextCompetitions",nextCompetitions)
+        console.log(LOG_TAG,"nextCompetitions",nextCompetitions)
 
 
 
 
         return (
             <div className="container-fluid">
-                <DashboardStats newUsers = {newUsersCounter} totalUsers = {totalUsers}/>
+                <DashboardStats newUsers = {newUsersCounter} totalUsers = {totalUsers} numberOfDownloads = {downloads[0].count} />
 
                 <DashboardCompletedTasks
                     nextCompetition = {nextCompetitions[0]}

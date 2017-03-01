@@ -36,7 +36,7 @@ export default class CompetitionViewer extends React.Component {
             },
             intermediatePoint : {
                 location : new google.maps.LatLng(competition.intermediate.latitude, competition.intermediate.longitude),
-                isSet : true,
+                isSet : competition.hasIntermediatePoint,
                 label : competition.intermediate.label
             },
             places : [
@@ -81,7 +81,7 @@ export default class CompetitionViewer extends React.Component {
                 origin: this.state.origin.location,
                 destination: this.state.destination.location,
                 travelMode: google.maps.TravelMode.WALKING,
-                waypoints : this.state.waypoints
+                waypoints : this.state.intermediatePoint.isSet ? this.state.waypoints : []
             }, (result, status) => {
                 console.log(LOG_TAG,"result",result);
                 console.log(LOG_TAG,"status",status)

@@ -9,33 +9,108 @@ import Charts from './Charts.jsx';
 
 const monthNames = ["Jan","Feb", "Mar","Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct","Nov", "Dec"];
 
+var classNames = require('classnames');
+
+var _ = require('lodash');
 
 // docs : http://codepen.io/maydie/pen/WvpzPG
-import { Circle } from 'rc-progress';
-
+var dayIndex = 0;
 export default class UserProfile extends React.Component {
     constructor(props) {
         super(props);
 
         console.log(LOG_TAG,"props : ",props)
         this.renderUserData = this.renderUserData.bind(this);
+        let x = timeRange(0);
+        console.log("x",x)
+        console.log("x0",x[0])
         this.state = {
             data: [],
-            series: ['20-Jan-17','21-Jan-17','22-Jan-17','23-Jan-17','24-Jan-17','25-Jan-17','26-Jan-17'],
-            colors: ['#43A19E', '#7B43A1', '#F2317A', '#FF9824', '#58CF6C']
+            series: timeRange(0),
+            //colors: ['#43A19E', '#7B43A1', '#F2317A', '#FF9824', '#58CF6C']
+            colors: ['#484541', '#7A9E9F', '#68B3C8', '#7AC29A', '#F3BB45', '#EB5E28'],
+            disableButtonLeft : 'pointer-events',
+            disableButtonRight : 'pointer-events',
+            dayIndex : 0
         };
 
+        this.clickLeft = this.clickLeft.bind(this);
+        this.clickRight = this.clickRight.bind(this);
+        this.clickToday = this.clickToday.bind(this);
+
     }
+
+    clickLeft() {
+        console.log(LOG_TAG,"clickLeft");
+        var t = this.state.dayIndex;
+        this.setState({
+            series : timeRange(t + 1),
+            dayIndex : t+1
+        })
+        this.populateArray(t+1);
+    }
+
+    clickRight() {
+        console.log(LOG_TAG,"clickRight");
+        var t = this.state.dayIndex;
+        this.setState({
+            series : timeRange(t - 1),
+            dayIndex : t-1
+        })
+        this.populateArray(t-1);
+    }
+
+    clickToday() {
+        console.log(LOG_TAG,"clickToday");
+        this.setState({
+            series : timeRange(0),
+            dayIndex : 0
+        })
+        this.populateArray(0);
+    }
+
+
+
+
     componentDidMount () {
         this.populateArray();
     }
-    populateArray () {
-        var data = [],
+
+    populateArray (indexParam) {
+        let index = indexParam != undefined ? indexParam : this.state.dayIndex;
+        //let index = indexParam || this.state.dayIndex;
+        console.log("this.state.dayIndex",this.state.dayIndex,"indexParam",indexParam,"index",index);
+            var data = [],
             serieLength = 7;
-        for (var j = serieLength; j--; ) {
-            data.push(getRandomInt(0, 10000));
+        var profile = this.renderUserData(this.props.params.userId);
+        console.log("profile.pedometerData.length",profile.pedometerData.length, "past",7*index+6)
+        for(var i = 7 * index + 6 ; i >=7*index  ; i--) {
+
+            if(profile.pedometerData[i] != undefined) {
+                console.log("profile.pedometerData["+i+"].steps : ",profile.pedometerData[i].steps)
+                data.push(profile.pedometerData[i].steps);
+            } else {
+                data.push(0);
+            }
+
         }
-        console.log(LOG_TAG,"populateData",data)
+        /*
+            8716    1488319200000   01.03
+            3163    1488232800000   28.02
+            3104    1488146400000   27.02
+            1645    1488060000000   26.02
+            4211    1487973600000   25.02
+            9177    1487887200000   24.02
+            1127    1487800800000   23.02
+            4516    1487714400000   22.02
+            9179    1487628000000   21.02
+
+        */
+        // for (var j = serieLength; j--; ) {
+        //     data.push(getRandomInt(0, 10000));
+        // }
+
+        console.log(LOG_TAG,"populateArray",data)
         this.setState({ data: data });
     }
     renderUserData(userId) {
@@ -54,6 +129,50 @@ export default class UserProfile extends React.Component {
         console.log(LOG_TAG,"this.state",this.state)
         var dateNow = new Date();
         var date = dateNow.getDate()+"-"+monthNames[dateNow.getMonth()]+"-"+dateNow.getFullYear()%100;
+
+        let stepsClasses = classNames('c100', 'big', 'green', 'blue-bg');
+
+        let startOfDay = new Date();
+        startOfDay.setHours(0,0,0,0);
+        console.log("profile.pedometerData",profile.pedometerData[1].day)
+        console.log("startOfDay",startOfDay)
+        let stepsForTodayArray = _.filter(profile.pedometerData, {'day' : startOfDay.getTime()});
+        let stepsForToday = 0;
+        if (stepsForTodayArray.length > 0) {
+            stepsForToday = stepsForTodayArray[0].steps;
+        }
+        console.log("stepsForToday",stepsForToday);
+        /*
+            10.000 steps ..... 100%
+            4276 steps ........x %
+            x = 4276 *100/ 10.000
+            x = 4276 / 100 = 42.76
+
+
+        */
+
+        // dummy just for testing
+        let stepsPercent = (stepsForToday / 100).toFixed(1); //dummy value
+
+
+        stepsClasses += ' ' + 'p' +  Math.floor(stepsPercent);
+
+
+        var dateNow = new Date();
+        var date = dateNow.getDate()+"-"+monthNames[dateNow.getMonth()]+"-"+dateNow.getFullYear()%100;
+
+        let buttonLeftClasses = classNames('btn','btn-default','btn-fill','btn-move-left');
+
+        let buttonRightClasses = classNames('btn','btn-default','btn-move-right', this.state.dayIndex == 0 ? 'pointer-events' : 'btn-fill');
+        let weight = profile.profile.weight == undefined ? '55.5' : profile.profile.weight;
+        let totalSteps = _.sumBy(profile.pedometerData, function(data) {
+            return data.steps;
+        })
+        let timeActive = _.sumBy(profile.pedometerData, function(data) {
+            return data.timeActive;
+        })
+
+
         return (
             <div className="content-scrollable container-fluid">
                 <div className="row">
@@ -77,13 +196,13 @@ export default class UserProfile extends React.Component {
                             <div className="text-center">
                                 <div className="row">
                                     <div className="col-md-3 col-md-offset-1">
-                                        <h5>137453<br /><small>Steps</small></h5>
+                                        <h5>{totalSteps}<br /><small>Steps</small></h5>
                                     </div>
                                     <div className="col-md-4">
-                                        <h5>55.7<br /><small>Kg</small></h5>
+                                        <h5>{weight}<br /><small>Kg</small></h5>
                                     </div>
                                     <div className="col-md-3">
-                                        <h5>13:24:33<br /><small>Time active</small></h5>
+                                        <h5>{timeActive}<br /><small>Time active</small></h5>
                                     </div>
                                 </div>
                             </div>
@@ -94,17 +213,16 @@ export default class UserProfile extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        <div className="card">
+                        <div className="card card-circle-chart" data-background="color" data-color="blue">
                             <div className="header">
-                                <h4 className="title">Circle progress</h4>
-                                <p className="category">30 %</p>
+                                <h5 className="title">Steps today</h5>
+                                <p className="description">{stepsForToday} / 10.000</p>
                             </div>
                             <div className="content">
-
                                 <div className="clearfix">
-                                    <div className="col-md-4 col-md-offset-4">
-                                        <div className="c100 p50 big green">
-                                            <span className="modified">10000 steps</span>
+                                    <div className="col-md-4 col-md-offset-1 col-lg-offset-4 col-sm-offset-4">
+                                        <div className={stepsClasses}>
+                                            <span>{stepsForToday}</span>
                                             <div className="slice">
                                                 <div className="bar"></div>
                                                 <div className="fill"></div>
@@ -113,6 +231,7 @@ export default class UserProfile extends React.Component {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="user-graph-footer-arc-progress">
                             </div>
                         </div>
@@ -132,15 +251,15 @@ export default class UserProfile extends React.Component {
                                 />
 
                             </div>
-                            <div className="user-graph-footer hidden-xs col-md-offset-4">
-                                <button type="button" className="btn btn-default btn-fill btn-move-left">
+                            <div className="user-graph-footer hidden-xs col-md-offset-4 col-sm-offset-4">
+                                <button type="button" className={buttonLeftClasses} onClick={this.clickLeft}>
                                     <span className="btn-label">
                                         <i className="ti-angle-left"></i>
                                     </span>
                                     Back
                                 </button>
-                                <button className="btn btn-default btn-fill">06-Feb-16</button>
-                                <button type="button" className="btn btn-default btn-fill btn-move-right">
+                                <button className="btn btn-default btn-fill" onClick={this.clickToday}>{date}</button>
+                                <button type="button" className={buttonRightClasses} onClick={this.clickRight}>
                                     Next
                                     <span className="btn-label">
                                         <i className="ti-angle-right"></i>
@@ -148,15 +267,16 @@ export default class UserProfile extends React.Component {
                                 </button>
                             </div>
 
-                            <div className="hidden-lg user-graph-footer-xs">
-                                <button type="button" className="btn btn-sm btn-default btn-fill btn-move-left">
+
+                            <div className="hidden-lg hidden-md hidden-sm user-graph-footer-xs">
+                                <button type="button" className={buttonLeftClasses} onClick={this.clickLeft}>
                                     <span className="btn-label">
                                         <i className="ti-angle-left"></i>
                                     </span>
                                     Back
                                 </button>
-                                <button className="btn btn-sm btn-default btn-fill">06-Feb-16</button>
-                                <button type="button" className="btn btn-sm btn-default btn-fill btn-move-right">
+                                <button className="btn btn-sm btn-default btn-fill"  onClick={this.clickToday}>{date}</button>
+                                <button type="button" className={buttonRightClasses} onClick={this.clickRight}>
                                     Next
                                     <span className="btn-label">
                                         <i className="ti-angle-right"></i>
@@ -177,4 +297,63 @@ export default class UserProfile extends React.Component {
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function xDaysAgo(dateNow, xDays) {
+    if (DEBUG) {
+        console.log(LOG_TAG,"xDaysAgo date : ", dateNow, " >>> xDays : ", xDays);
+    }
+
+    var parsedData = d3.time.format("%d-%b-%y").parse(dateNow);
+    var date = new Date(parsedData);
+    var daysAgo = date - (xDays*24*60*60*1000);
+    var dateDaysAgo = new Date(daysAgo);
+    var yr = dateDaysAgo.getFullYear() % 100;
+    var formattedDaysAgo = dateDaysAgo.getDate()+"-"+monthNames[dateDaysAgo.getMonth()]+"-"+yr;
+    if (DEBUG) {
+        //console.log(LOG_TAG,"formattedDaysAgo : ", formattedDaysAgo);
+    }
+    return formattedDaysAgo;
+}
+
+
+function xDaysFuture(dateNow, xDays) {
+    if (DEBUG) {
+        console.log(LOG_TAG,"xDaysFuture date : ", dateNow, " >>> xDays : ", xDays);
+    }
+
+    var parsedData = d3.time.format("%d-%b-%y").parse(dateNow);
+    var date = new Date(parsedData);
+    var daysFuture = date.getTime() + (xDays*24*60*60*1000);
+    var dateDaysFuture = new Date(daysFuture);
+    var yr = dateDaysFuture.getFullYear() % 100;
+    var formattedDaysFuture = dateDaysFuture.getDate()+"-"+monthNames[dateDaysFuture.getMonth()]+"-"+yr;
+
+    if (DEBUG) {
+        //console.log(LOG_TAG,"formattedDaysFuture : ", formattedDaysFuture);
+    }
+    return formattedDaysFuture;
+}
+
+
+function timeRange(index) {
+    var date = new Date();
+    var timeRange = [];
+    if (DEBUG) {
+        console.log(LOG_TAG,"beforeNow date : ", date);
+    }
+    console.log("index",index,"7*index+6",7*index+6)
+    for(var i = 7 * index + 6 ; i >=7*index  ; i--) {
+        var daysAgo = date - (i*24*60*60*1000);
+        console.log(LOG_TAG,i + " days ago " + new Date(daysAgo).getTime())
+        var dateDaysAgo = new Date(daysAgo);
+        var yr = dateDaysAgo.getFullYear() % 100;
+        var formattedBeforeNow = dateDaysAgo.getDate()+"-"+monthNames[dateDaysAgo.getMonth()]+"-"+yr;
+        timeRange.push(formattedBeforeNow);
+        if (DEBUG) {
+            //console.log(LOG_TAG,"formattedBeforeNow : ", formattedBeforeNow);
+        }
+    }
+    console.log("timeRange",timeRange)
+    return timeRange;
 }

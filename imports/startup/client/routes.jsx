@@ -22,13 +22,12 @@ import CompetitionForm from '../../ui/pages/CompetitionForm.jsx';
 
 import CompetitionContainer from '../../ui/containers/CompetitionContainer.jsx';
 
-
-
 const closeMenuIfOpen = function() {
     if(Session.get('menuOpen')) {
         Session.set({ menuOpen : false });
     }
 }
+
 
 export const renderRoutes = () => (
     <Router history={browserHistory}>

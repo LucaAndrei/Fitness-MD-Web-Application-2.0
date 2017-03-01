@@ -34,7 +34,8 @@
 }
 .geosuggest__item:hover,
 .geosuggest__item:focus {
-  background: #B8D8D8;
+  background: #66615B;
+  color : #FFF;
 }
 .geosuggest__item--active {
   background: #B8D8D8;
@@ -42,7 +43,8 @@
 }
 .geosuggest__item--active:hover,
 .geosuggest__item--active:focus {
-  background: #B8D8D8;
+  background: #66615B;
+  color : #FFF;
 }
 
 .fa-delete-waypoint {

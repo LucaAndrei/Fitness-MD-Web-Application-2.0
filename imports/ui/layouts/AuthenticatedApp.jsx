@@ -50,7 +50,8 @@ export default class AuthenticatedApp extends React.Component {
             allUsers,
             messages,
             challenges,
-            competitions
+            competitions,
+            downloads
         } = this.props;
 
         const closeMenu = this.toggleMenu.bind(this, false);
@@ -64,7 +65,8 @@ export default class AuthenticatedApp extends React.Component {
             key: location.pathname,
             users: allUsers,
             challenges : challenges,
-            competitions : competitions
+            competitions : competitions,
+            downloads
         });
         console.log(LOG_TAG,"clonedChildren",clonedChildren);
 
@@ -75,15 +77,11 @@ export default class AuthenticatedApp extends React.Component {
                 <div className="main-panel">
                     <Topbar user={user} logout={this.logout} />
                     <div className="content">
-
-                        <ReactCSSTransitionGroup
-                                transitionName="fade"
-                                transitionEnterTimeout={200}
-                                transitionLeaveTimeout={200}>
-                                {loading
-                                    ? <Loading key="loading" />
-                                    : clonedChildren}
-                            </ReactCSSTransitionGroup>
+                        {
+                            loading
+                                ? <Loading key="loading" />
+                                : clonedChildren
+                        }
                     </div>
                     <Footer />
                 </div>

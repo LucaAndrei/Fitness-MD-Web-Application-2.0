@@ -65,7 +65,7 @@ export default class CompetitionDetails extends React.Component {
     }
 
     registerCompetition(event) {
-        console.log("registerCompetition",this.props)
+        console.log(LOG_TAG,"registerCompetition",this.props)
         let isRegistering = event.target.value == "give_up" ? false : true;
         Meteor.call("registerCompetition", {
             userID : Meteor.userId(),

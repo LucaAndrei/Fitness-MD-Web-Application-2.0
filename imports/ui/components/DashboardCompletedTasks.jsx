@@ -31,7 +31,7 @@ export default class DashboardCompletedTasks extends React.Component {
         let formattedDate = "---";
         let totalAvailablePlaces = 0;
         let registeredUsersPercent = 0;
-        let marathonClasses = classNames('c100', 'big', 'green');
+        let marathonClasses = classNames('c100', 'big', 'green', 'blue-bg');
         if (nextCompetition) {
 
 	        registeredUsersForNextCompetition = nextCompetition.registeredUsers ? nextCompetition.registeredUsers.length : 0;
@@ -44,8 +44,19 @@ export default class DashboardCompletedTasks extends React.Component {
 	        totalAvailablePlaces = registeredUsersForNextCompetition + nextCompetition.availablePlaces;
 	        registeredUsersPercent = (registeredUsersForNextCompetition / totalAvailablePlaces * 100).toFixed(1);
 
-	        marathonClasses = classNames('p' + Math.floor(registeredUsersPercent));
+	        marathonClasses += ' ' + 'p' + Math.floor(registeredUsersPercent);
         }
+
+        marathonClasses += ' ' + 'p' + 30; // dummy data
+
+        let challengesClasses = classNames('c100', 'big', 'green', 'green-bg');
+        let completedChallengesPercent = 80; //dummy value
+        challengesClasses += ' ' + 'p' + completedChallengesPercent;
+
+
+        let subscriptionsClasses = classNames('c100', 'big', 'green', 'orange-bg', 'p24');
+        let subscriptionsPercent = 24; //dummy value
+        subscriptionsClasses += ' ' + 'p' + subscriptionsPercent;
 
         return (
             <div className="row">
@@ -79,8 +90,8 @@ export default class DashboardCompletedTasks extends React.Component {
 	                            <div className="content">
 	                                <div className="clearfix">
 	                                    <div className="col-md-offset-3">
-	                                        <div className="c100 p44 big green">
-	                                            <span>44 %</span>
+	                                        <div className={challengesClasses}>
+	                                            <span>{completedChallengesPercent} %</span>
 	                                            <div className="slice">
 	                                                <div className="bar"></div>
 	                                                <div className="fill"></div>
@@ -92,7 +103,7 @@ export default class DashboardCompletedTasks extends React.Component {
 	                        </div>
 						</div>
 						<div className="col-lg-4 col-sm-6">
-							<div className="card card-circle-chart" data-background="color" data-color="orange">
+							<div className="card card-circle-chart" data-background="color" data-color="brown">
 	                            <div className="header text-center">
 	                                <h5 className="title">Subscriptions</h5>
 	                                <p className="description">Newsletter</p>
@@ -100,8 +111,8 @@ export default class DashboardCompletedTasks extends React.Component {
 	                            <div className="content">
 	                                <div className="clearfix">
 	                                    <div className="col-md-offset-3">
-	                                        <div className="c100 p17 big green">
-	                                            <span>17 %</span>
+	                                        <div className={subscriptionsClasses}>
+	                                            <span>{subscriptionsPercent} %</span>
 	                                            <div className="slice">
 	                                                <div className="bar"></div>
 	                                                <div className="fill"></div>

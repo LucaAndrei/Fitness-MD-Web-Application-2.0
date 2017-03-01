@@ -14,14 +14,16 @@ export default class Users extends React.Component {
     }
 
     renderUsers(users) {
-        console.log(LOG_TAG,"Admin renderUsers");
+        console.log(LOG_TAG,"renderUsers");
         return users.map((user) => {
             var isUserAdmin = Roles.userIsInRole(user._id, 'admin');
             console.log(LOG_TAG,"user._id",user._id);
             console.log(LOG_TAG,"Meteor.userId", Meteor.userId());
             if(!isUserAdmin && user._id != Meteor.userId()) {
                 return (
-                    <li key={user._id}><User user={user} /></li>
+                    <li key={user._id}>
+                        <User user={user} />
+                    </li>
                 )
             }
         });

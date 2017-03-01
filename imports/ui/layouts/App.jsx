@@ -8,6 +8,8 @@ import Loading from '../components/Loading.jsx';
 let DEBUG = true;
 let LOG_TAG = "imports/ui/layouts/App";
 
+var classNames = require('classnames');
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -49,23 +51,24 @@ export default class App extends React.Component {
             key: location.pathname
         });
 
+        console.log("location",location,location.pathname);
+        let containerClasses;
+        if (location.pathname == "/signin" || location.pathname == "/join" || location.pathname == "/contact") {
+            containerClasses = classNames('logged-out-container');
+        }
+
         return (
             <div className="wrapper">
-                <Sidebar user={user} logout={this.logout} />
-                <div className="main-panel">
+
+                <div className="main-panel-extended">
                     <Topbar user={user} logout={this.logout} />
-                    <div className="content">
-                        <div className="container-fluid">
-                            <ReactCSSTransitionGroup
-                                transitionName="fade"
-                                transitionEnterTimeout={200}
-                                transitionLeaveTimeout={200}>
-                                {loading
-                                    ? <Loading key="loading" />
-                                    : clonedChildren}
-                            </ReactCSSTransitionGroup>
+                    <div className={containerClasses}>
+                        {
+                            loading
+                                ? <Loading key="loading" />
+                                : clonedChildren
+                        }
                         </div>
-                    </div>
                     <Footer />
                 </div>
             </div>

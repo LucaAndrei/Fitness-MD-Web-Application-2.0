@@ -19,6 +19,7 @@ export default class About extends React.Component {
             console.log(LOG_TAG,"this.props : ",this.props);
         }
         return (
+            <div className = "container">
                 <div className="container-fluid">
                     <div className="page-header">
                         <h3 id="timeline">Education and Training</h3>
@@ -200,6 +201,7 @@ export default class About extends React.Component {
                         </div>
                     </section>
                 </div>
+            </div>
         )
     }
 }

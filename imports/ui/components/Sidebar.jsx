@@ -24,7 +24,7 @@ export default class Sidebar extends React.Component {
             <div className="sidebar" data-background-color="white" data-active-color="danger">
                 <div className="sidebar-wrapper">
                     <div className="logo">
-                        <NavLink to="/" className="simple-text">
+                        <NavLink to="/app/dashboard" className="simple-text">
                             <i className="fa fa-fw fa-heartbeat fa-2x" />Fitness MD
                         </NavLink>
                     </div>

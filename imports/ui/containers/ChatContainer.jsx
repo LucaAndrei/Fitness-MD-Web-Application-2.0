@@ -10,6 +10,8 @@ let LOG_TAG = "imports/ui/containers/ChatContainer";
 
 export default createContainer(({ params: { interlocutorId } }) => {
     const messagesHandle = Meteor.subscribe('messages', interlocutorId);
+    const interlocutorDataHandle = Meteor.subscribe('userDataByUserId', interlocutorId);
+
 
     if (DEBUG) {
         console.log(LOG_TAG, "params interlocutorId", interlocutorId);
@@ -17,7 +19,8 @@ export default createContainer(({ params: { interlocutorId } }) => {
     }
     return {
         user: Meteor.user(),
-        loading: !(messagesHandle.ready()),
-        messages: Messages.find({}, { sort: { timestamp: 1 } }).fetch()
+        loading: !(messagesHandle.ready() && interlocutorDataHandle.ready()),
+        messages: Messages.find({}, { sort: { timestamp: 1 } }).fetch(),
+        interlocutorData : Meteor.users.find({_id : interlocutorId}).fetch()
     };
 }, ChatBox);

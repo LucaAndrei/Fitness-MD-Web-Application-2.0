@@ -51,7 +51,8 @@ export default class ChatBox extends React.Component {
         const {
             messages,
             user,
-            location
+            location,
+            interlocutorData
         } = this.props
 
         sortMessages(messages);
@@ -62,7 +63,7 @@ export default class ChatBox extends React.Component {
                 <div className="card card-chat">
                     <div className="header">
                         <h4 className="title">Chat</h4>
-                        <p className="category">With Tania Andrew</p>
+                        <p className="category">With {interlocutorData[0].profile.name}</p>
                     </div>
                     <div className="content">
                         <div id = "messages">

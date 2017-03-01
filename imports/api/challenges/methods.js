@@ -45,6 +45,51 @@ export const insertChallenge = new ValidatedMethod({
     }
 })
 
+export const updateChallenge = new ValidatedMethod({
+    name : 'updateChallenge',
+    validate : new SimpleSchema({
+        'challengeId' : {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id
+        },
+        'createdBy' : {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id
+        },
+        'difficulty': {
+            type: String
+        },
+        'type': {
+            type: String
+        },
+        'text': {
+            type: String
+        }
+    }).validator(),
+    run({challengeId, createdBy, difficulty, type, text}) {
+        console.log(LOG_TAG,"updateChallenge");
+        console.log(LOG_TAG,"challengeId",challengeId);
+        console.log(LOG_TAG,"createdBy",createdBy);
+        console.log(LOG_TAG,"difficulty",difficulty);
+        console.log(LOG_TAG,"type",type);
+        console.log(LOG_TAG,"text",text);
+        try {
+            var updated =  Challenges.update({_id : challengeId }, {
+                $set : {
+                    'difficulty' : difficulty,
+                    'type' : type,
+                    'text' : text
+                }
+            } );
+            console.log(LOG_TAG,"updated challenge",updated);
+            return "success updated";
+        } catch ( exception ) {
+            throw new Meteor.Error( '500', `${ exception }` );
+        }
+    }
+})
+
+
 export const deleteChallenge = new ValidatedMethod({
     name : 'deleteChallenge',
     validate : new SimpleSchema({

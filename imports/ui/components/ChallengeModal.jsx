@@ -33,12 +33,7 @@ export default class ChallengeModal extends React.Component {
                         isCreating
                             ?
                                 <button onClick={this.props.onSave} className="btn btn-fill btn-wd">Save</button>
-                            :   (
-                                    isUserAdmin
-                                        ?
-                                            ""
-                                        :   <button onClick={this.props.takeChallenge} className="btn btn-fill btn-wd">Take Challenge</button>
-                                )
+                            :   ""
                     }
                 </Modal.Footer>
             </Modal>

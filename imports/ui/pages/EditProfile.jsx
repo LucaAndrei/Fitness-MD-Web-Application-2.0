@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import 'react-dates/lib/css/_datepicker.css';
 
-import NumberInput from 'react-number-input';
-
 let DEBUG = true;
 let LOG_TAG = "imports/ui/pages/EditProfile";
 
@@ -329,8 +327,8 @@ export default class EditProfile extends React.Component {
                                                 <input
                                                     type="number"
                                                     className="form-control border-input"
-                                                    min="120"
-                                                    max="150"
+                                                    min="55.5"
+                                                    max="200"
                                                     placeholder="Weight"
                                                     defaultValue={user.profile.weight}
                                                     onChange={this.handleWeightChange}

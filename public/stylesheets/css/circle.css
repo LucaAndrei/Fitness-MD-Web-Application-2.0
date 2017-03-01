@@ -1099,3 +1099,85 @@
 .c100.orange.dark:hover > span {
   color: #e08833;
 }
+
+
+
+
+
+
+
+.c100.blue-bg {
+  background-color: #728386;
+}
+.c100.blue-bg .bar,
+.c100.blue-bg .fill {
+  border-color: #485a5d !important;
+}
+.c100.blue-bg > span {
+  color: #FFF;
+}
+.c100.blue-bg:after {
+  background-color: #7A9E9F;
+}
+.c100.blue-bg:hover > span {
+  color: #FFF;
+}
+
+
+
+
+.c100.green-bg {
+  background-color: #7f9263;
+}
+.c100.green-bg .bar,
+.c100.green-bg .fill {
+  border-color: #60773d !important;
+}
+.c100.green-bg > span {
+  color: #FFF;
+}
+.c100.green-bg:after {
+  background-color: #92AC56;
+}
+.c100.green-bg:hover > span {
+  color: #FFF;
+}
+
+
+
+.c100.orange-bg {
+  background-color: #906957;
+}
+.c100.orange-bg .bar,
+.c100.orange-bg .fill {
+  border-color: #75442E !important;
+}
+.c100.orange-bg > span {
+  color: #FFF;
+}
+.c100.orange-bg:after {
+  background-color: #A47E65;
+}
+.c100.orange-bg:hover > span {
+  color: #FFF;
+}
+
+
+
+
+
+.c100.green.dark .bar,
+.c100.green.dark .fill {
+  border-color: #5fd400 !important;
+}
+.c100.green.dark:hover > span {
+  color: #5fd400;
+}
+.c100.orange.dark .bar,
+.c100.orange.dark .fill {
+  border-color: #e08833 !important;
+}
+.c100.orange.dark:hover > span {
+  color: #e08833;
+}
+

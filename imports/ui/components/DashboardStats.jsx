@@ -27,6 +27,7 @@ export default class DashboardStats extends React.Component {
         const {
             totalUsers,
             newUsers,
+            numberOfDownloads
         } = this.props;
 
         return (
@@ -68,7 +69,7 @@ export default class DashboardStats extends React.Component {
                                 <div className="col-xs-7">
                                     <div className="numbers">
                                         <p>Total app downloads</p>
-                                        1234
+                                        {numberOfDownloads}
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,23 @@
+
+import Downloads from '../../api/downloads/Downloads.js';
 Meteor.startup(() => {
+
+
+
+	/* *******************
+		insert data to downloads
+		*****************/
+		//console.log("startup downloads",Downloads.find());
+		var downloadsExist = Downloads.find().count();
+		console.log("downloadsExist",downloadsExist)
+		if (downloadsExist == 0) {
+			Downloads.insert({
+				'_id' : 'numberOfDownloads',
+				'count' : 0
+			})
+		}
+
+
 
 
 	let LOG_TAG = "generate-accounts";

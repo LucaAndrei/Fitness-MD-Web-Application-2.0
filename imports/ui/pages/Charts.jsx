@@ -31,10 +31,14 @@ export default class Charts extends React.Component {
                     style={{ height: height ? height: 'auto' }}>
                     {
                         data.map(function (item, itemIndex) {
-                            console.log(LOG_TAG,"item",item);
-                            console.log(LOG_TAG,"itemIndex",itemIndex);
+                            //console.log(LOG_TAG,"item",item);
+                            //console.log(LOG_TAG,"itemIndex",itemIndex);
                             var color = colors[itemIndex], style,
-                                size = item / max * 100;
+                                size = max == 0 ? 0 : item / max * 100;
+
+                            //console.log(LOG_TAG,"color",color);
+                            //console.log(LOG_TAG,"size",size);
+
 
                             style = {
                                 backgroundColor: color,

@@ -17,23 +17,25 @@ export default class Footer extends React.Component {
         return (
 
             <footer className="footer">
-            <div className="container-fluid">
-                <nav className="pull-left">
-                    <ul>
-                        <NavLink to="/about" className="menu-item">
-                            <i className="icon-menu fa fa-fw fa-info" /><p>About</p>
-                        </NavLink>
+                <div className="container">
+                    <div className="container-fluid">
+                        <nav className="pull-left">
+                            <ul>
+                                <NavLink to="/about" className="menu-item">
+                                    <i className="icon-menu fa fa-fw fa-info" /><p>About</p>
+                                </NavLink>
 
-                        <NavLink to="/contact" className="menu-item">
-                            <i className="icon-menu fa fa-fw fa-envelope" /><p>Contact</p>
-                        </NavLink>
-                    </ul>
-                </nav>
-                <div className="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i className="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+                                <NavLink to="/contact" className="menu-item">
+                                    <i className="icon-menu fa fa-fw fa-envelope" /><p>Contact</p>
+                                </NavLink>
+                            </ul>
+                        </nav>
+                        <div className="copyright pull-right">
+                            &copy; Andrei Luca
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
         );
     }
 }

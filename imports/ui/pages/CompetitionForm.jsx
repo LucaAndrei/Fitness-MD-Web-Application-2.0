@@ -87,7 +87,7 @@ export default class CompetitionForm extends React.Component {
         if (_.keys(errors).length) {
 
             _.map(_.keys(errors), function(key) {
-                console.log("key",key)
+                console.log(LOG_TAG,"key",key)
                 Bert.alert(errors[key],'warning','growl-top-right')
             })
             return;
@@ -297,7 +297,6 @@ export default class CompetitionForm extends React.Component {
                             label = {place.label}
                         />
                     ));
-        console.log("")
 
         return (
             <div className="container-fluid">

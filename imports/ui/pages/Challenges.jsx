@@ -22,12 +22,6 @@ export default class Challenges extends React.Component {
     constructor(props) {
         super(props);
         this.state = _.assign(this.state, { editing: false, creating : false, showModal : false });
-        this.editList = this.editList.bind(this);
-        this.saveList = this.saveList.bind(this);
-        this.deleteList = this.deleteList.bind(this);
-        this.createTodo = this.createTodo.bind(this);
-        this.focusTodoInput = this.focusTodoInput.bind(this);
-        this.updateTodo = this.updateTodo.bind(this);
 
         this.createChallenge = this.createChallenge.bind(this);
         this.open = this.open.bind(this);
@@ -46,35 +40,6 @@ export default class Challenges extends React.Component {
         this.takeChallenge = this.takeChallenge.bind(this);
 
     }
-
-    editList() {
-        this.setState({ editing: true }, () => {
-            this.listNameInput.focus();
-        });
-    }
-
-    saveList() {
-        this.setState({ editing: false });
-        console.log(LOG_TAG,"savelist")
-    }
-
-    deleteList() {
-        console.log(LOG_TAG,"deleteList")
-    }
-
-    createTodo(event) {
-        event.preventDefault();
-        const input = this.newTodoInput;
-        console.log(LOG_TAG,"createTodo",input)
-    }
-
-    focusTodoInput() {
-        this.newTodoInput.focus();
-    }
-
-  updateTodo(event) {
-    this.throttledUpdate(event.target.value);
-  }
 
   createChallenge() {
     console.log(LOG_TAG,"createChallenge");

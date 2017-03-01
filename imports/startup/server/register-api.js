@@ -12,3 +12,6 @@ import '../../api/challenges/methods.js';
 
 import '../../api/competitions/server/publications.js';
 import '../../api/competitions/methods.js';
+
+import '../../api/downloads/server/publications.js';
+import '../../api/downloads/methods.js';
