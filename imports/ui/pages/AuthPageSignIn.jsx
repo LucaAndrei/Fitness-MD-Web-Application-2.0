@@ -50,6 +50,7 @@ export default class SignInPage extends Component {
         }
 
         Meteor.loginWithPassword(email, password, (err) => {
+            console.log(LOG_TAG,"err",err)
             if (err) {
                 this.setState({
                     errors: {
@@ -75,6 +76,15 @@ export default class SignInPage extends Component {
                         <h3 className="title">Login</h3>
                     </div>
                     <div className="content">
+
+                        <div className = "list-errors">
+                            {errorMessages.map(msg => (
+                                <div className = "list-item" key = {msg}>
+                                    {msg}
+                                </div>
+                                ))
+                            }
+                        </div>
                         <div className="form-group">
                             <label>Email address</label>
                             <input name = "email" ref = {(c) => {this.email = c;}} placeholder="Enter email"

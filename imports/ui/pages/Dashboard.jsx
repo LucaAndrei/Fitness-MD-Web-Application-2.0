@@ -33,27 +33,40 @@ export default class Dashboard extends React.Component {
         start.setHours(0,0,0,0);
         console.log(LOG_TAG,"start",start.getTime());
 
-        var totalStepsForHourIndex = [0,0,0,0,0,0,0,0,0];
+        var totalStepsForHourIndex = [0,0,0,0,0,0,0,0,0]; //extra 0 because the 06:00 am hour is displayed outside the graph
+        let numberOfUsersForGraph = [];
         var times = _.countBy(users, function(user) {
             console.log(LOG_TAG,"user",user)
             _.countBy(user.pedometerData, function(data) {
-                console.log(LOG_TAG,"data",data.day);
+                //console.log(LOG_TAG,"data",data.day,"startOfDay",start.getTime());
                 if (data.day == start.getTime()) {
-                    console.log(LOG_TAG,"data.steps",data.steps)
+                    if(numberOfUsersForGraph.indexOf(user._id) == -1) {
+                        numberOfUsersForGraph.push(user._id);
+                    }
+                    console.log(LOG_TAG,"data.steps",data.steps,"hourIndex",data.hourIndex)
                     totalStepsForHourIndex[data.hourIndex] += data.steps;
                 }
             })
         })
+        console.log("numberOfUsersForGraph",numberOfUsersForGraph.length)
+        for(let i = 0; i < totalStepsForHourIndex.length;i++) {
+            console.log("totalStepsForHourIndex["+i+"] : ",totalStepsForHourIndex[i]);
+            totalStepsForHourIndex[i] /= numberOfUsersForGraph.length;
+            console.log("average totalStepsForHourIndex["+i+"] : ",totalStepsForHourIndex[i]);
+        }
 
         var dataSales = {
           labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
           series: [totalStepsForHourIndex,totalStepsForHourIndex,totalStepsForHourIndex]
         };
-
+        for(let i = 0; i < totalStepsForHourIndex.length;i++) {
+            console.log("totalStepsForHourIndex["+i+"] : ",totalStepsForHourIndex[i]);
+        }
+        console.log("totalStepsForHourIndex",totalStepsForHourIndex,"min",_.min(totalStepsForHourIndex),"max",_.max(totalStepsForHourIndex))
         var optionsSales = {
           lineSmooth: false,
           low: 0,
-          high: 1000,
+          high: _.max(totalStepsForHourIndex),
           showArea: true,
           height: "245px",
           axisX: {

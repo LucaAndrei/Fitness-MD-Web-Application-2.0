@@ -9,6 +9,11 @@ if(Meteor.isServer) {
 		console.log(LOG_TAG,"onCreateUser user",user);
 	  	// add your extra fields here; don't forget to validate the options, if needed
 	 	user.profile = options.profile || {};
+	 	if (options.profile.country == undefined) {
+	 		_.extend(user.profile, {
+		 		'country' : 'N/A'
+		 	});
+	 	}
 	 	let dummyPedometerData = [];
 	 	let startOfDay = new Date();
         	startOfDay.setHours(0,0,0,0);
@@ -17,13 +22,23 @@ if(Meteor.isServer) {
 	 		var daysAgo = startOfDay - (i*24*60*60*1000);
         	console.log(LOG_TAG,i + " days ago " + new Date(daysAgo).getTime())
         	var dateDaysAgo = new Date(daysAgo).getTime();
-	 		let pedometerData = {
-	 			'steps' : getRandomInt(0, 10000),
-	 			'day' : dateDaysAgo,
-	 			'kCalBurned' : getRandomInt(0, 4000),
-	 			'timeActive' : getRandomInt(0, 43200) //12 hours
+	 		for (var t = 0; t<=7 ; t++) {
+	 			let pedometerData = {
+		 			'steps' : getRandomInt(0, 2000), //value every 3 hours
+		 			'day' : dateDaysAgo,
+		 			'hourIndex' : t,
+		 			'kCalBurned' : getRandomInt(0, 1000),
+		 			'timeActive' : getRandomInt(0, 10800) //3 hours
+		 		}
+		 		dummyPedometerData.push(pedometerData);
+		 		let dateString = new Date(daysAgo);
+		 		console.log("steps    ",pedometerData.steps,"    day    ",pedometerData.day,"    ",dateString.getDate(),".",dateString.getMonth()+1,"    hourIndex    ",pedometerData.hourIndex)
+
 	 		}
-	 		dummyPedometerData.push(pedometerData);
+
+
+
+
 	 	}
 	  	_.extend(user, {
 		    status: false,

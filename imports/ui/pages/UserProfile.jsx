@@ -84,28 +84,35 @@ export default class UserProfile extends React.Component {
             serieLength = 7;
         var profile = this.renderUserData(this.props.params.userId);
         console.log("profile.pedometerData.length",profile.pedometerData.length, "past",7*index+6)
+
+        let startOfDay = new Date();
+        startOfDay.setHours(0,0,0,0);
         for(var i = 7 * index + 6 ; i >=7*index  ; i--) {
+            var daysAgo = startOfDay - (i*24*60*60*1000);
+            console.log(LOG_TAG,i + " days ago " + new Date(daysAgo).getTime())
+            var dateDaysAgo = new Date(daysAgo);
+
+            var pedometerDataPerDay = _.sumBy(_.filter(profile.pedometerData, {'day' : dateDaysAgo.getTime()}), 'steps');
+            console.log("pedometerDataPerDay",pedometerDataPerDay)
+            data.push(pedometerDataPerDay);
+        }
+
+
+        /*for(var i = 7 * index + 6 ; i >=7*index  ; i--) {
 
             if(profile.pedometerData[i] != undefined) {
                 console.log("profile.pedometerData["+i+"].steps : ",profile.pedometerData[i].steps)
+                for (let t = 0 ; t <= 7 ; t++) {
+
+                }
                 data.push(profile.pedometerData[i].steps);
             } else {
                 data.push(0);
             }
 
-        }
-        /*
-            8716    1488319200000   01.03
-            3163    1488232800000   28.02
-            3104    1488146400000   27.02
-            1645    1488060000000   26.02
-            4211    1487973600000   25.02
-            9177    1487887200000   24.02
-            1127    1487800800000   23.02
-            4516    1487714400000   22.02
-            9179    1487628000000   21.02
+        }*/
 
-        */
+
         // for (var j = serieLength; j--; ) {
         //     data.push(getRandomInt(0, 10000));
         // }
@@ -136,11 +143,7 @@ export default class UserProfile extends React.Component {
         startOfDay.setHours(0,0,0,0);
         console.log("profile.pedometerData",profile.pedometerData[1].day)
         console.log("startOfDay",startOfDay)
-        let stepsForTodayArray = _.filter(profile.pedometerData, {'day' : startOfDay.getTime()});
-        let stepsForToday = 0;
-        if (stepsForTodayArray.length > 0) {
-            stepsForToday = stepsForTodayArray[0].steps;
-        }
+        let stepsForToday = _.sumBy(_.filter(profile.pedometerData, {'day' : startOfDay.getTime()}), 'steps');
         console.log("stepsForToday",stepsForToday);
         /*
             10.000 steps ..... 100%
