@@ -146,9 +146,19 @@ export const updateStepsForToday = new ValidatedMethod({
             console.log(LOG_TAG,"insertPedometerData result : ",result);
         }*/
 
-        var resultUpdate = Meteor.users.update({_id : userId, 'pedometerData.day' : startOfDay, 'pedometerData.hourIndex' : hourIndex},
+        var resultUpdate = Meteor.users.update(
+            {
+                _id : userId,
+                'pedometerData' : {
+                    $elemMatch : {
+                        'day' : startOfDay,
+                        'hourIndex' : hourIndex
+                    }
+                }
+            },
             {$set : {
-                'pedometerData.$.steps' : steps}}
+                'pedometerData.$.steps' : steps}
+            }
         )
 
         console.log(LOG_TAG,"resultUpdate",resultUpdate);

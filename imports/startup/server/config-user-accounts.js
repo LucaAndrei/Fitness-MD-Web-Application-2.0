@@ -17,11 +17,15 @@ if(Meteor.isServer) {
 	 	let dummyPedometerData = [];
 	 	let startOfDay = new Date();
         	startOfDay.setHours(0,0,0,0);
-	 	for (var i = 0; i<= 24 ; i++) {
+        let day = [];
+        let stepsForDay = [];
+	 	for (var i = 1; i<= 25 ; i++) {
 
 	 		var daysAgo = startOfDay - (i*24*60*60*1000);
         	console.log(LOG_TAG,i + " days ago " + new Date(daysAgo).getTime())
         	var dateDaysAgo = new Date(daysAgo).getTime();
+        	var totalStepsForDay = 0;
+
 	 		for (var t = 0; t<=7 ; t++) {
 	 			let pedometerData = {
 		 			'steps' : getRandomInt(0, 2000), //value every 3 hours
@@ -30,16 +34,40 @@ if(Meteor.isServer) {
 		 			'kCalBurned' : getRandomInt(0, 1000),
 		 			'timeActive' : getRandomInt(0, 10800) //3 hours
 		 		}
+		 		totalStepsForDay += pedometerData.steps;
 		 		dummyPedometerData.push(pedometerData);
 		 		let dateString = new Date(daysAgo);
 		 		console.log("steps    ",pedometerData.steps,"    day    ",pedometerData.day,"    ",dateString.getDate(),".",dateString.getMonth()+1,"    hourIndex    ",pedometerData.hourIndex)
 
 	 		}
+	 		day.push(daysAgo);
+	 		stepsForDay.push(totalStepsForDay);
 
 
 
 
 	 	}
+
+	if (user.profile.height == undefined) {
+		_.extend(user.profile, {
+			'height' : 165
+		});
+	}
+	if (user.profile.weight == undefined) {
+		_.extend(user.profile, {
+			'weight' : 55.0
+		});
+	}
+	if (user.profile.yearOfBirth == undefined) {
+		_.extend(user.profile, {
+			'yearOfBirth' : 1980
+		});
+	}
+	if (user.profile.gender == undefined) {
+		_.extend(user.profile, {
+			'gender' : 'Male'
+		});
+	}
 	  	_.extend(user, {
 		    status: false,
 		    createdAt: new Date(),
@@ -49,10 +77,7 @@ if(Meteor.isServer) {
 
 	 	});
 		// profile picture base 64 works but it is annoying in the logs
-	 	_.extend(user.profile, {
-	 		'height' : 150,
-	 		'weight' : 55.5
-	 	});
+
 	 	if (user.username) {
 		 	_.extend(user.profile, {
 		 		'name' : user.username
@@ -60,6 +85,20 @@ if(Meteor.isServer) {
 	 	}
 
 	  	console.log(LOG_TAG,"modified user",user);
+	  	var totalSteps = 0;
+	  	var maxSteps = -1;
+	  	for(var t = 0 ; t<day.length ; t++) {
+	  		console.log(LOG_TAG,"day[" + t + "] : " + day[t] + " : " + new Date(day[t]) + " steps : " + stepsForDay[t]);
+	  		totalSteps += stepsForDay[t];
+	  		if(stepsForDay[t] > maxSteps) {
+	  			maxSteps = stepsForDay[t];
+	  		}
+
+	  	}
+	  	console.log(LOG_TAG,"totalSteps",totalSteps);
+	  	console.log(LOG_TAG,"maxSteps",maxSteps);
+	  	//console.log(LOG_TAG,"modified user day",day);
+	  	//console.log(LOG_TAG,"modified user stepsForDay",stepsForDay);
 
 	  	return user;
 	});

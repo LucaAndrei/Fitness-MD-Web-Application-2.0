@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 let DEBUG = true;
 let LOG_TAG = "imports/api/users/server/publications";
+var _ = require('lodash');
 
 Meteor.publish( 'users', function() {
     let isAdmin = Roles.userIsInRole( this.userId, 'admin' );
@@ -63,26 +64,53 @@ Meteor.publish("userData", function () {
 
 
 Meteor.publish("userDataByUserId", function (userId) {
-    if (this.userId) {
-        return Meteor.users.find(
-            {
-                _id: userId
-            },
-            {
-                fields: {
-                    "username" : 1,
-                    "emails.address": 1,
-                    "roles": 1,
-                    "profile" : 1,
-                    "pedometer" : 1,
-                    "myField" : 1,
-                    "profilePictureBase64" : 1,
-                    "createdAt" : 1,
-                    "pedometerData" : 1
+    console.log(LOG_TAG,"publish userDataByUserId this.userId : ",this.userId, " >> userId : ",userId);
+    if (userId != undefined && userId._id != undefined) {
+
+        console.log(LOG_TAG,"publish userDataByUserId userId._id : ",userId._id);
+
+
+            return Meteor.users.find(
+                {
+                    _id: userId._id
+                },
+                {
+                    fields: {
+                        "username" : 1,
+                        "emails.address": 1,
+                        "roles": 1,
+                        "profile" : 1,
+                        "pedometer" : 1,
+                        "myField" : 1,
+                        "profilePictureBase64" : 1,
+                        "createdAt" : 1,
+                        "pedometerData" : 1
+                    }
                 }
-            }
-        );
+            );
     } else {
-        this.ready();
+        if (this.userId) {
+            return Meteor.users.find(
+                {
+                    _id: userId
+                },
+                {
+                    fields: {
+                        "username" : 1,
+                        "emails.address": 1,
+                        "roles": 1,
+                        "profile" : 1,
+                        "pedometer" : 1,
+                        "myField" : 1,
+                        "profilePictureBase64" : 1,
+                        "createdAt" : 1,
+                        "pedometerData" : 1
+                    }
+                }
+            );
+        } else {
+            this.ready();
+        }
     }
+
 });
