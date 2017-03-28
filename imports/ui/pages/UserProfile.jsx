@@ -341,6 +341,7 @@ function xDaysFuture(dateNow, xDays) {
 
 function timeRange(index) {
     var date = new Date();
+    date.setHours(0,0,0,0);
     var timeRange = [];
     if (DEBUG) {
         console.log(LOG_TAG,"beforeNow date : ", date);
