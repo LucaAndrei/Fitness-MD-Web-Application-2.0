@@ -118,7 +118,10 @@ Meteor.startup(() => {
 		//console.log(LOG_TAG,"setAdmins");
 	  for ( let i = 0; i <admins.length; i++ ) {
 	    var admin   = Meteor.users.findOne( { "emails.address": admins[i].email }, { fields: { "_id": 1 } } );
-	        isAdmin = _isUserAnAdmin( admin._id );
+	    var isAdmin = true;
+	    if (admin != undefined) {
+	    	isAdmin = _isUserAnAdmin( admin._id );
+	    }
 
 	    if ( !isAdmin ) {
 	      Roles.setUserRoles( admin._id, 'admin' );
