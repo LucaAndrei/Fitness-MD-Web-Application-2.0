@@ -14,9 +14,9 @@ Meteor.publish('challenges', function(interlocutorId) {
     } else return this.ready();
 });
 
-Meteor.publish('challenges123', function(interlocutorId) {
+Meteor.publish('challenges_all', function() {
     if (DEBUG) {
-        console.log(LOG_TAG,"publish-challenges123 this.userId : ",this.userId);
+        console.log(LOG_TAG,"publish-challenges-all this.userId : ",this.userId);
     }
     console.log(LOG_TAG,Challenges.find({}))
 

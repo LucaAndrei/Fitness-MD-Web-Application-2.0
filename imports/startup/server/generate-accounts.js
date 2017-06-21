@@ -34,11 +34,11 @@ Meteor.startup(() => {
 	  let fakeUserCount = 1,
 	      usersExist    = _checkIfAccountsExist( administrators.length + fakeUserCount );
 
-	  // if ( !usersExist ) {
-	  //   _createUsers( administrators );
-	  //   _createUsers( _generateFakeUsers( fakeUserCount ) );
-	  // }
-	  // console.log(usersExist)
+	  if ( !usersExist ) {
+	    _createUsers( administrators );
+	    _createUsers( _generateFakeUsers( fakeUserCount ) );
+	  }
+	  console.log(usersExist)
 
 	};
 

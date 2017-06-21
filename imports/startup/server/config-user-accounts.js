@@ -37,7 +37,7 @@ if(Meteor.isServer) {
 		 		totalStepsForDay += pedometerData.steps;
 		 		dummyPedometerData.push(pedometerData);
 		 		let dateString = new Date(daysAgo);
-		 		console.log("steps    ",pedometerData.steps,"    day    ",pedometerData.day,"    ",dateString.getDate(),".",dateString.getMonth()+1,"    hourIndex    ",pedometerData.hourIndex)
+		 		//console.log("steps    ",pedometerData.steps,"    day    ",pedometerData.day,"    ",dateString.getDate(),".",dateString.getMonth()+1,"    hourIndex    ",pedometerData.hourIndex)
 
 	 		}
 	 		day.push(daysAgo);
@@ -84,7 +84,7 @@ if(Meteor.isServer) {
 		 	});
 	 	}
 
-	  	console.log(LOG_TAG,"modified user",user);
+	  	//console.log(LOG_TAG,"modified user",user);
 	  	var totalSteps = 0;
 	  	var maxSteps = -1;
 	  	for(var t = 0 ; t<day.length ; t++) {

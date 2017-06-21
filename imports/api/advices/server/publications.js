@@ -13,3 +13,13 @@ Meteor.publish('advices', function(interlocutorId) {
 	    return Advices.find({});
 	} else return this.ready();
 });
+
+
+Meteor.publish('advices_all', function() {
+    if (DEBUG) {
+        console.log(LOG_TAG,"publish-advices-all this.userId : ",this.userId);
+    }
+    console.log(LOG_TAG,Advices.find({}))
+
+    return Advices.find({});
+});
