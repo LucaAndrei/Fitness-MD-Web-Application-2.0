@@ -76,7 +76,7 @@ let _checkIfSelf = ( message ) => {
 
 let _assignOwnerAndTimestamp = ( message ) => {
     message.owner     = Meteor.userId();
-    message.ownerName = Meteor.user().emails[0].address;
+    message.ownerName = Meteor.user().profile.name;
     message.timestamp = new Date();
     if (DEBUG) {
        console.log(LOG_TAG,"Step 1) _assignOwnerAndTimestamp message : ",message);

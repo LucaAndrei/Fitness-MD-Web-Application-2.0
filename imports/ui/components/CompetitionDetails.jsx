@@ -126,9 +126,10 @@ export default class CompetitionDetails extends React.Component {
                 })
 
                 console.log(LOG_TAG,"found",found);
-                availablePlaces = competition.availablePlaces;
+
                 isRegistered = found;
             }
+            availablePlaces = competition.availablePlaces;
             availablePlacesProps = {
                 value : competition.availablePlaces
             }
@@ -145,6 +146,7 @@ export default class CompetitionDetails extends React.Component {
 
 
         console.log(LOG_TAG,"isRegistered",isRegistered)
+        console.log(LOG_TAG,"availablePlaces",availablePlaces)
 
 
 
