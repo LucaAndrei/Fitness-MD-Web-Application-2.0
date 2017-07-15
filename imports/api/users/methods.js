@@ -335,3 +335,24 @@ export const updateDescription = new ValidatedMethod({
         }
     }
 });
+
+
+export const deleteUser = new ValidatedMethod({
+    name : 'deleteUser',
+    validate : new SimpleSchema({
+        'userId' : {
+            type: String,
+            regEx: SimpleSchema.RegEx.Id
+        }
+    }).validator(),
+    run({userId}) {
+        console.log(LOG_TAG,"userId",userId);
+        try {
+            var removed =  Meteor.users.remove({_id : userId});
+            console.log(LOG_TAG,"removed user",removed);
+            return "success removed";
+        } catch ( exception ) {
+            throw new Meteor.Error( '500', `${ exception }` );
+        }
+    }
+})
