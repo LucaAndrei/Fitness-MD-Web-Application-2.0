@@ -75,7 +75,7 @@ export default class User extends React.Component {
             <div className="row">
                 <div className="col-xs-3">
                     <div className="avatar" onClick={this.deleteUser}>
-                        <img src="/img/faces/face-3.jpg" alt="Circle Image" className="img-circle img-no-padding img-responsive" />
+                        <img src={"data:image/png;base64," + user.profilePictureBase64} alt="Circle Image" className="img-circle img-no-padding img-responsive" />
                     </div>
                 </div>
                 <div className="col-xs-9 col-md-6 text-center">

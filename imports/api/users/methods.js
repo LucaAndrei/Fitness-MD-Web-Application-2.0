@@ -108,7 +108,7 @@ export const insertProfilePicture = new ValidatedMethod({
                 {'profilePictureBase64' : base64String }
             });
         if (DEBUG) {
-            console.log(LOG_TAG,"insertPedometerData result : ",result);
+            console.log(LOG_TAG,"insertProfilePicture result : ",result);
         }
     }
 })
